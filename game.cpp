@@ -26,7 +26,15 @@ void Game::printBoard()
 
 bool Game::gameOver()
 {
-	if(checkWin());
+	if(checkWin(HUMAN)) return true;
+	if(checkWin(AI)) return true;
+
+	bool emptySpace = false;
+	for(int i=0; i<3; i++)
+		if(board[i][0]=='-' || board[i][1]=='-' || board[i][2]=='-')
+			emptySpace = true;
+
+	return !emptySpace;
 }
 
 bool Game::checkWin(Player player)
