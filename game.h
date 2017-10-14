@@ -29,5 +29,7 @@ public:
 	bool checkWin(Player player);
 	// checks for a win
 
-	
+	void getHumanMove();
+	// takes in values from the input stream and places them on the board
+	// if valid. Expects input in given notation, (1,3)
 };
