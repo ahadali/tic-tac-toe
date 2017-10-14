@@ -25,4 +25,9 @@ public:
 
 	bool gameOver();
 	// returns true if winner has been found or there are no empty spaces
+
+	bool checkWin(Player player);
+	// checks for a win
+
+	
 };
