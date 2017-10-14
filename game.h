@@ -23,6 +23,6 @@ public:
 	void printBoard();
 	// prints the board
 
-	void gameOver();
+	bool gameOver();
 	// returns true if winner has been found or there are no empty spaces
 };
