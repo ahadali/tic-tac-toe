@@ -19,4 +19,7 @@ public:
 	void play();
 	// Primary game driver, loops through turn-by-turn until there's
 	// a winner or full game board (draw)
+
+	void printBoard();
+	// prints the board
 };
