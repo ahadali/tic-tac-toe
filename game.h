@@ -17,9 +17,12 @@ public:
 	// initializes the board with _
 
 	void play();
-	// Primary game driver, loops through turn-by-turn until there's
-	// a winner or full game board (draw)
+	// Primary game driver, loops through turn-by-turn until there's a
+	// winner or full game board (draw)
 
 	void printBoard();
 	// prints the board
+
+	void gameOver();
+	// returns true if winner has been found or there are no empty spaces
 };
