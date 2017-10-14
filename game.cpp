@@ -11,6 +11,15 @@ void Game::play()
 {
 	int turn=0;
 	printBoard();
+
+	while(!checkWin(HUMAN) && !checkWin(AI) && !gameOver())
+	{
+		// human move
+		if(turn%2 == 0)
+		{
+			getHumanMove();
+		}
+	}
 }
 
 void Game::printBoard()
@@ -64,4 +73,25 @@ bool Game::checkWin(Player player)
 		return true;
 
 	return false;
+}
+
+void Game::getHumanMove()
+{
+	cout<<"Enter your move in the following form, ex: 1,3.\n";
+	cout<<"Your move: ";
+
+	char c;
+	int x=0, y=0;
+
+	while(!(x>0 || x<4) && !(y>0 || y<4))
+	{
+		// loop until a valid move is entered
+		cin>>c;
+		x = c-'0';
+
+		cin>>c>>c;
+		y = c-'0';
+	}
+
+	board[x][y] = human;
 }
