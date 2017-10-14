@@ -32,4 +32,7 @@ public:
 	void getHumanMove();
 	// takes in values from the input stream and places them on the board
 	// if valid. Expects input in given notation, (1,3)
+
+	Move minimax(char AIboard[3][3]);
+	// returns the best AI move's x,y coordinates via minimax algo
 };
