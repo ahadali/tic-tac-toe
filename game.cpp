@@ -28,7 +28,13 @@ void Game::play()
 			cout<<"\nComputer Player move:\n";
 
 			Move AImove = minimax(board);
-			// resume from here
+
+			board[AImove.x][AImove.y] = ai;
+
+			if(checkWin(AI)) cout<<"Computer Player Wins\n";
+
+			turn++;
+			printBoard();
 		}
 	}
 }
