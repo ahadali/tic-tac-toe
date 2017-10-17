@@ -70,7 +70,7 @@ bool Game::checkWin(Player player)
 	if(player == HUMAN)
 		playerChar = human;
 	else
-		player = ai;
+		playerChar = ai;
 
 	for(int i=0; i<3; i++)
 	{
