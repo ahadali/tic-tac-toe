@@ -120,10 +120,19 @@ Move Game::minimax(char AIboard[3][3])
 				AIboard[i][j] = ai;
 
 				int tempMoveScore = maxSearch(AIboard);
-				//resume from here
+
+				if(tempMoveScore <= bestMoveScore)
+				{
+					bestMoveScore = tempMoveScore;
+					bestMove.x = i;
+					bestMove.y = j;
+				}
+
+				AIboard[i][j] = '-';
 			}
 		}
 
+	return bestMove;
 }
 
 int Game::maxSearch(char AIboard[3][3])
