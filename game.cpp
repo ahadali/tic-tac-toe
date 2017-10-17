@@ -21,7 +21,7 @@ void Game::play()
 			
 			if(checkWin(HUMAN)) cout<<"Human Player wins!" << endl;
 			turn++;
-			printBoard;
+			printBoard();
 		}
 		else
 		{
