@@ -6,7 +6,12 @@ const char ai='O';
 
 enum Player
 {
-	HUMAN, AI;
+	HUMAN, AI
+};
+
+struct Move
+{
+	int x, y;
 };
 
 class Game {
