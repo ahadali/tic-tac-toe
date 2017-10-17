@@ -140,8 +140,18 @@ int Game::maxSearch(char AIboard[3][3])
 				AIboard[i][j] = human;
 
 			int tempMoveScore = minSearch(AIboard);
-			// resume from here
+
+			if(tempMoveScore >= bestMoveScore)
+			{
+				bestMoveScore = tempMoveScore;
+				bestMove.x = i;
+				bestMove.y = j;
+			}
+
+			AIboard[i][j] = '-';
 		}
+
+	return bestMoveScore;
 }
 
 int Game::score()
@@ -153,5 +163,30 @@ int Game::score()
 
 int Game::minSearch(char AIboard[3][3])
 {
-	
+	if(gameOver()) return score();
+
+	int bestMoveScore = 1000;
+	Move bestMove;
+
+	for(int i=0; i<3; i++)
+		for(int j=0; j<3; j++)
+		{
+			if(AIboard[i][j] == '-')
+			{
+				AIboard[i][j] = ai;
+
+				int tempMoveScore = maxSearch(AIboard);
+
+				if(tempMoveScore <= bestMoveScore)
+				{
+					bestMoveScore = tempMoveScore;
+					bestMove.x = i;
+					bestMove.y = j;
+				}
+
+				AIboard[i][j] = '-';
+			}
+		}
+
+	return bestMoveScore;
 }
