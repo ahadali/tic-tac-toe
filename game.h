@@ -39,4 +39,8 @@ public:
 	int maxSearch(char AIboard[3][3]);
 	// minimax helper fx for finding next move for human player, chooses
 	// the move with the least possible score
+
+	int score();
+	// function to score game board states based on their outcome.
+	// Returns 10 for human win, -10 for AI win, 0 for draw
 };
