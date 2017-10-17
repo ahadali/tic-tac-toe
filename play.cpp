@@ -1,9 +1,11 @@
 #include "game.h"
 
-int main(void)
+int
+main ()
 {
-	Game tictactoe;
-	tictactoe.play();
+  Game tictactoe;
 
-	return 0;
+  tictactoe.play ();
+
+  return 0;
 }

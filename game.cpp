@@ -1,207 +1,181 @@
+#include <sstream>
+#include <iomanip>
 #include "game.h"
 
-Game::Game()
-{
-	for(int i=0; i<3; i++)
-		for(int j=0; j<3; j++)
-			board[i][j]='-';
+Game::Game() {
+	for(int i = 0; i < 3; i++)
+		for(int j = 0; j < 3; j++)
+			board[i][j] = '-';
 }
 
-void Game::play()
-{
-	int turn=0;
+void Game::play() {
+	int turn = 0;
 	printBoard();
-
-	while(!checkWin(HUMAN) && !checkWin(AI) && !gameOver())
-	{
+	while(!checkWin(HUMAN) && !checkWin(AI) && !gameOver()) {
 		// human move
-		if(turn%2 == 0)
-		{
+		if(turn % 2 == 0) {
 			getHumanMove();
-			
-			if(checkWin(HUMAN)) cout<<"Human Player wins!" << endl;
+			if(checkWin(HUMAN)) cout << "Human Player Wins" << endl;
 			turn++;
 			printBoard();
-		}
-		else
-		{
-			cout<<"\nComputer Player move:\n";
-
+		} else {
+			cout << endl << "Computer Player Move:" << endl;
 			Move AImove = minimax(board);
-
 			board[AImove.x][AImove.y] = ai;
-
-			if(checkWin(AI)) cout<<"Computer Player Wins\n";
-
+			if(checkWin(AI)) cout << "Computer Player Wins" << endl;
 			turn++;
 			printBoard();
 		}
 	}
 }
 
-void Game::printBoard()
-{
-		cout<<"--------------------";
-		
-		for(int i=0; i<3; i++)
-			for(int j=0; j<3; j++)
-				cout<<"|"<<board[i][j]<<"|"<<endl;
-		
-		cout<<"\n--------------------\n";
+void Game::printBoard() {
+	cout << "-------------------";
+	for(int i = 0; i < 3; i++) {
+		cout << '\n' << "|";
+		for(int j = 0; j < 3; j++) {
+			cout << setw(3) << board[i][j] << setw(3) << " |";
+		}
+	}
+	cout << '\n' << "-------------------" << '\n';
 }
 
-bool Game::gameOver()
-{
-	if(checkWin(HUMAN)) return true;
-	if(checkWin(AI)) return true;
-
-	bool emptySpace = false;
-	for(int i=0; i<3; i++)
-		if(board[i][0]=='-' || board[i][1]=='-' || board[i][2]=='-')
-			emptySpace = true;
-
-	return !emptySpace;
-}
-
-bool Game::checkWin(Player player)
-{
+bool Game::checkWin(Player player) {
 	char playerChar;
+	if(player == HUMAN) playerChar = human;
+	else playerChar = ai;
 
-	if(player == HUMAN)
-		playerChar = human;
-	else
-		playerChar = ai;
-
-	for(int i=0; i<3; i++)
-	{
-		// check rows
-		if(board[i][0]==playerChar && board[i][1]==playerChar && board[i][2]==playerChar)
+	for(int i = 0; i < 3; i++) {
+		// Check horizontals
+		if(board[i][0] == playerChar && board[i][1] == playerChar
+			&& board[i][2] == playerChar)
 			return true;
 
-		// check columns
-		if(board[0][i]==playerChar && board[0][i]==playerChar && board[0][i]==playerChar)
+		// Check verticals
+		if(board[0][i] == playerChar && board[1][i] == playerChar
+			&& board[2][i] == playerChar)
 			return true;
 	}
 
-	// check diagonals
-	if(board[0][0]==playerChar && board[1][1]==playerChar && board[2][2])
+	// Check diagonals
+	if (board[0][0] == playerChar && board[1][1] == playerChar 
+		&& board[2][2] == playerChar) {
 		return true;
-	if(board[0][2]==playerChar && board[1][1]==playerChar && board[2][0]==playerChar)
+	} else if (board[0][2] == playerChar && board[1][1] == playerChar 
+		&& board[2][0] == playerChar) {
 		return true;
+	}
 
 	return false;
 }
 
-void Game::getHumanMove()
-{
-	cout<<"Enter your move in the following form, ex: 1,3.\n";
-	cout<<"Your move: ";
+bool Game::gameOver() {
+	if(checkWin(HUMAN)) return true;
+	else if(checkWin(AI)) return true;
 
-	char c;
-	int x=0, y=0;
-
-	while(!(x>0 || x<4) && !(y>0 || y<4))
-	{
-		// loop until a valid move is entered
-		cin>>c;
-		x = c-'0';
-
-		cin>>c>>c;
-		y = c-'0';
+	bool emptySpace = false;
+	for(int i = 0; i < 3; i++) {
+		if(board[i][0] == '-' || board[i][1] == '-' || board[i][2] == '-')
+			emptySpace = true;
 	}
+	return !emptySpace;
+}
 
+void Game::getHumanMove() {
+	int x, y = -1; // arbitrary assignment to init loop
+	while(x < 0 || x > 2 || y < 0 || y > 2) {
+		// Loop until a valid move is entered
+		cout << "Enter your move in coordinate form, ex: (1,3)." << endl;
+		cout << "Your Move: ";
+		char c;
+		string restofline;
+
+		cin >> c >> c;
+		x = c - '0' - 1;
+		cin >> c >> c;
+		y = c - '0' - 1;
+		getline(cin, restofline); // get garbage chars after move
+
+		if(board[x][y] != '-')
+		{
+			cout << "Cell already taken!\nChoose empty cell!\n";
+			x = y = -1;
+			continue;
+		}
+	}
 	board[x][y] = human;
 }
 
-Move Game::minimax(char AIboard[3][3])
-{
-	int bestMoveScore = 100;
+Move Game::minimax(char AIboard[3][3]) { 
+	int bestMoveScore = 100; // -100 is arbitrary
 	Move bestMove;
 
-	for(int i=0; i<3; i++)
-		for(int j=0; j<3; j++)
-		{
-			if(AIboard[i][j] == '-')
-			{
+	for(int i = 0; i < 3; i++) {
+		for(int j = 0; j < 3; j++) {
+			if(AIboard[i][j] == '-') {
 				AIboard[i][j] = ai;
-
 				int tempMoveScore = maxSearch(AIboard);
-
-				if(tempMoveScore <= bestMoveScore)
-				{
+				if(tempMoveScore <= bestMoveScore) {
 					bestMoveScore = tempMoveScore;
 					bestMove.x = i;
 					bestMove.y = j;
 				}
-
 				AIboard[i][j] = '-';
 			}
 		}
+	}
 
 	return bestMove;
 }
 
-int Game::maxSearch(char AIboard[3][3])
-{
+int Game::maxSearch(char AIboard[3][3]) {
 	if(gameOver()) return score();
-	
+	Move bestMove;
+
 	int bestMoveScore = -1000;
-	Move bestMove;
-
-	for(int i=0; i<3; i++)
-		for(int j=0; j<3; j++)
-		{
-			if(AIboard[i][j] == '-')
+	for(int i = 0; i < 3; i++) {
+		for(int j = 0; j < 3; j++) {
+			if(AIboard[i][j] == '-') {
 				AIboard[i][j] = human;
-
-			int tempMoveScore = minSearch(AIboard);
-
-			if(tempMoveScore >= bestMoveScore)
-			{
-				bestMoveScore = tempMoveScore;
-				bestMove.x = i;
-				bestMove.y = j;
-			}
-
-			AIboard[i][j] = '-';
-		}
-
-	return bestMoveScore;
-}
-
-int Game::score()
-{
-	if(checkWin(HUMAN)) return 10;
-	if(checkWin(AI)) return -10;
-	return 0;	// draw
-}
-
-int Game::minSearch(char AIboard[3][3])
-{
-	if(gameOver()) return score();
-
-	int bestMoveScore = 1000;
-	Move bestMove;
-
-	for(int i=0; i<3; i++)
-		for(int j=0; j<3; j++)
-		{
-			if(AIboard[i][j] == '-')
-			{
-				AIboard[i][j] = ai;
-
-				int tempMoveScore = maxSearch(AIboard);
-
-				if(tempMoveScore <= bestMoveScore)
-				{
+				int tempMoveScore = minSearch(AIboard);
+				if(tempMoveScore >= bestMoveScore) {
 					bestMoveScore = tempMoveScore;
 					bestMove.x = i;
 					bestMove.y = j;
 				}
-
 				AIboard[i][j] = '-';
 			}
 		}
+	}
+
+	return bestMoveScore;
+}
+
+int Game::score() {
+	if(checkWin(HUMAN)) { return 10; }
+	else if(checkWin(AI)) { return -10; }
+	return 0; // draw
+}
+
+int Game::minSearch(char AIboard[3][3]) {
+	if(gameOver()) return score();
+	Move bestMove;
+
+	int bestMoveScore = 1000; 
+	for(int i = 0; i < 3; i++) {
+		for(int j = 0; j < 3; j++) {
+			if(AIboard[i][j] == '-') {
+				AIboard[i][j] = ai;
+				int tempMove = maxSearch(AIboard);
+				if(tempMove <= bestMoveScore) {
+					bestMoveScore = tempMove;
+					bestMove.x = i;
+					bestMove.y = j;
+				}
+				AIboard[i][j] = '-';
+			}
+		}
+	}
 
 	return bestMoveScore;
 }

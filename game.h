@@ -1,17 +1,18 @@
 #include <iostream>
+
 using namespace std;
 
-const char human='X';
-const char ai='O';
+const char human = 'X';
+const char ai = 'O';
 
 enum Player
 {
-	HUMAN, AI
+	HUMAN, AI 
 };
 
-struct Move
-{
-	int x, y;
+struct Move {
+	int x;
+	int y;
 };
 
 class Game {
@@ -19,37 +20,36 @@ class Game {
 
 public:
 	Game();
-	// initializes the board with _
 
 	void play();
-	// Primary game driver, loops through turn-by-turn until there's a
-	// winner or full game board (draw)
+	// Primary game driver, loops through turn-by-turn until there's
+	// a winner or full game board (draw)
 
 	void printBoard();
-	// prints the board
-
-	bool gameOver();
-	// returns true if winner has been found or there are no empty spaces
+	// Prints the board
 
 	bool checkWin(Player player);
-	// checks for a win
+	// Checks for a win
+
+	bool gameOver();
+	// Returns true if a winner has been found or there are no empty spaces
 
 	void getHumanMove();
-	// takes in values from the input stream and places them on the board
-	// if valid. Expects input in given notation, (1,3)
+	// Takes in values from the input stream and places them on the board
+	// if valid.  Expects input in coordinate notation, ex (1,3)
 
 	Move minimax(char AIboard[3][3]);
-	// returns the best AI move's x,y coordinates via minimax algo
+	// Returns the best AI move's x, y coords via the minimax algorithm
 
 	int maxSearch(char AIboard[3][3]);
-	// minimax helper fx for finding the next move for human, chooses
-	// the move with the max possible score
+	// minimax helper fn for finding the next move for human player, chooses
+	// the move with the least possible score
 
 	int score();
-	// function to score game board states based on their outcome.
+	// Function to score game board states based on their outcome
 	// Returns 10 for human win, -10 for AI win, 0 for draw
 
 	int minSearch(char AIboard[3][3]);
-	// minimax helper fx for finding the next move for AI, chooses
-	// the move with the least possible score
+	// minimax helper fn for finding the next move for AI player, chooses the 
+	// move with the least possible score
 };
