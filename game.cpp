@@ -18,6 +18,17 @@ void Game::play()
 		if(turn%2 == 0)
 		{
 			getHumanMove();
+			
+			if(checkWin(HUMAN)) cout<<"Human Player wins!" << endl;
+			turn++;
+			printBoard;
+		}
+		else
+		{
+			cout<<"\nComputer Player move:\n";
+
+			Move AImove = minimax(board);
+			// resume from here
 		}
 	}
 }
@@ -94,4 +105,36 @@ void Game::getHumanMove()
 	}
 
 	board[x][y] = human;
+}
+
+Move Game::minimax(char AIboard[3][3])
+{
+	int bestMoveScore = 100;
+	Move bestMove;
+
+	for(int i=0; i<3; i++)
+		for(j=0; j<3; j++)
+		{
+			if(AIboard[i][j]=='-')
+			{
+				AIboard[i][j] = ai;
+
+				int tempMoveScore = maxSearch(AIboard);
+				//resume from here
+			}
+		}
+
+}
+
+int Game::maxSearch(char AIboard[3][3])
+{
+	if(gameOver()) return score();
+	// resume from here
+}
+
+int Game::score()
+{
+	if(checkWin(HUMAN)) return 10;
+	if(checkWin(AI)) return -10;
+	return 0;	// draw
 }
