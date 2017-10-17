@@ -37,10 +37,14 @@ public:
 	// returns the best AI move's x,y coordinates via minimax algo
 
 	int maxSearch(char AIboard[3][3]);
-	// minimax helper fx for finding next move for human player, chooses
-	// the move with the least possible score
+	// minimax helper fx for finding the next move for human, chooses
+	// the move with the max possible score
 
 	int score();
 	// function to score game board states based on their outcome.
 	// Returns 10 for human win, -10 for AI win, 0 for draw
+
+	int minSearch(char AIboard[3][3]);
+	// minimax helper fx for finding the next move for AI, chooses
+	// the move with the least possible score
 };
