@@ -115,7 +115,7 @@ Move Game::minimax(char AIboard[3][3])
 	for(int i=0; i<3; i++)
 		for(j=0; j<3; j++)
 		{
-			if(AIboard[i][j]=='-')
+			if(AIboard[i][j] == '-')
 			{
 				AIboard[i][j] = ai;
 
@@ -129,7 +129,19 @@ Move Game::minimax(char AIboard[3][3])
 int Game::maxSearch(char AIboard[3][3])
 {
 	if(gameOver()) return score();
-	// resume from here
+	
+	int bestMoveScore = -1000;
+	Move bestMove;
+
+	for(int i=0; i<3; i++)
+		for(int j=0; j<3; j++)
+		{
+			if(AIboard[i][j] == '-')
+				AIboard[i][j] = human;
+
+			int tempMoveScore = minSearch(AIboard);
+			// resume from here
+		}
 }
 
 int Game::score()
@@ -137,4 +149,9 @@ int Game::score()
 	if(checkWin(HUMAN)) return 10;
 	if(checkWin(AI)) return -10;
 	return 0;	// draw
+}
+
+int Game::minSearch(char AIboard[3][3])
+{
+	
 }
