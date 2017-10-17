@@ -119,7 +119,7 @@ Move Game::minimax(char AIboard[3][3])
 	Move bestMove;
 
 	for(int i=0; i<3; i++)
-		for(j=0; j<3; j++)
+		for(int j=0; j<3; j++)
 		{
 			if(AIboard[i][j] == '-')
 			{
