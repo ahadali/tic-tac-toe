@@ -35,4 +35,8 @@ public:
 
 	Move minimax(char AIboard[3][3]);
 	// returns the best AI move's x,y coordinates via minimax algo
+
+	int maxSearch(char AIboard[3][3]);
+	// minimax helper fx for finding next move for human player, chooses
+	// the move with the least possible score
 };
