@@ -1,4 +1,8 @@
-# tictactoe-minimax
+# Tic Tac Toe:
+Play a game of Tic Tac Toe against the computer.
+
+Built using C++.
+
 ---
 ## How to run:
 ```
